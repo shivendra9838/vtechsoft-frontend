@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  /* VTECHSOFT brand colors from logo */
+  --color-vtech-dark: #0f2942;
+  --color-vtech-blue: #1e4a6f;
+  --color-vtech-teal: #00c9b7;
+  --color-vtech-aqua: #2dd4bf;
+  --color-vtech-gray: #374151;
+  --color-vtech-light: #f8fafc;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
