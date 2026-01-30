@@ -23,17 +23,29 @@ export async function apiRequest(endpoint, options = {}) {
 
   try {
     const response = await fetch(url, config);
-    const data = await response.json();
-
-    console.log('API Response:', { status: response.status, ok: response.ok, data });
-
+    
+    // Check if response is ok
     if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
+      // Handle network errors or server errors
+      if (response.status === 0) {
+        throw new Error('Network error - unable to connect to server');
+      }
+      
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
     }
 
+    const data = await response.json();
+    console.log('API Response:', { status: response.status, ok: response.ok, data });
     return data;
   } catch (error) {
     console.error('API Error:', { url, error: error.message });
+    
+    // Provide more user-friendly error messages
+    if (error.message.includes('Failed to fetch') || error.message.includes('Network error')) {
+      throw new Error('Unable to connect to the server. Please check your internet connection and try again.');
+    }
+    
     throw error;
   }
 }
